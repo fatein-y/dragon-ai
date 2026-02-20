@@ -150,13 +150,18 @@
                 return;
             }
 
+            if (text.length < 5) {
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                tg.showAlert("📝 اكتب وصف أوضح!");
+                return;
+            }
+
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
 
             btn.disabled = true;
             btn.innerHTML = "جاري الكتابة... ⏳";
 
             setTimeout(() => {
-                console.log("إرسال:", mode, "|", text);
                 tg.sendData(`${mode}|${text}`);
                 tg.close();
             }, 600);
