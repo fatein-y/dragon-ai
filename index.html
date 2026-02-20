@@ -3,180 +3,677 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dragon Pro 🐉</title>
+    <title>Dragon Pro 🐉 - كاتبك الاحترافي</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #8e44ad; /* لون بنفسجي ملكي */
-            --accent: #00d2ff;  /* أزرق تكنولوجي */
-            --bg: #0a0b10;
-            --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --primary: #8e44ad;
+            --primary-light: #a569bd;
+            --accent: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.3);
+            --bg: #0a0b10;
+            --bg-light: #1a1a2e;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-hover: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(0, 210, 255, 0.3);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --success: #00b894;
+            --error: #d63031;
+        }
 
         body {
             font-family: 'Cairo', sans-serif;
             background: var(--bg);
-            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0b10 100%);
-            margin: 0;
+            background: radial-gradient(circle at 50% 0%, #1e1a2e, #0a0b10 80%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: white;
-            overflow: hidden;
+            justify-content: center;
+            color: var(--text);
+            padding: 12px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* تأثير النيون في الخلفية */
-        body::before {
-            content: ""; position: absolute; width: 300px; height: 300px;
-            background: var(--primary); filter: blur(150px); opacity: 0.15;
-            top: -50px; left: -50px; z-index: -1;
+        /* تأثيرات خلفية متحركة */
+        .orb {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            filter: blur(150px);
+            opacity: 0.1;
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+            z-index: -1;
+            animation: orbFloat 20s infinite alternate;
+        }
+
+        .orb2 {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: var(--accent);
+            filter: blur(150px);
+            opacity: 0.1;
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+            z-index: -1;
+            animation: orbFloat 20s infinite alternate-reverse;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
         }
 
         .container {
+            width: 100%;
+            max-width: 480px;
             background: var(--glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 35px;
-            padding: 40px 25px;
-            width: 92%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            border-radius: 48px;
+            padding: 30px 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
-            animation: fadeIn 1s ease-out;
+            overflow: hidden;
         }
 
-        h2 { 
-            margin: 0; font-weight: 900; font-size: 28px; 
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #fff, var(--accent));
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* الهيدر */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 52px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.2;
         }
 
-        .subtitle { font-size: 13px; color: rgba(255, 255, 255, 0.4); margin-bottom: 30px; display: block; letter-spacing: 0.5px; }
+        .badge {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 4px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 8px;
+            backdrop-filter: blur(5px);
+        }
 
-        .mode-selector { display: flex; gap: 12px; margin-bottom: 25px; }
-        .mode-option { flex: 1; cursor: pointer; position: relative; }
-        .mode-option input { display: none; }
+        /* عنوان القسم */
+        .section-title {
+            text-align: right;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title span {
+            background: var(--glass);
+            padding: 4px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+        }
+
+        /* أزرار الأنماط - 3 بالعربي */
+        .mode-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .mode-option {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .mode-option input {
+            display: none;
+        }
 
         .mode-card {
-            display: flex; flex-direction: column; align-items: center;
-            padding: 20px 10px; background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border); border-radius: 22px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 16px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
         }
 
-        .icon { font-size: 30px; margin-bottom: 10px; opacity: 0.5; transition: 0.4s; }
-        .mode-name { font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, 0.4); }
+        .mode-card:hover {
+            background: var(--glass-hover);
+            transform: translateY(-2px);
+        }
 
-        /* تفعيل المود المختار */
+        .mode-icon {
+            font-size: 32px;
+            filter: grayscale(0.5);
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+
+        .mode-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .mode-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+            opacity: 0.5;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        /* الوضع المختار */
         .mode-option input:checked + .mode-card {
-            background: rgba(142, 68, 173, 0.1);
+            background: linear-gradient(145deg, rgba(142, 68, 173, 0.15), rgba(0, 210, 255, 0.1));
             border-color: var(--accent);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: scale(1.02);
         }
-        .mode-option input:checked + .mode-card .icon { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 8px var(--accent)); }
-        .mode-option input:checked + .mode-card .mode-name { color: white; }
+
+        .mode-option input:checked + .mode-card .mode-icon {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.1);
+            text-shadow: 0 0 20px var(--accent);
+        }
+
+        .mode-option input:checked + .mode-card .mode-name {
+            color: var(--text);
+            font-weight: 900;
+        }
+
+        .mode-option input:checked + .mode-card .mode-desc {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* منطقة النص */
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .char-counter {
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--glass);
+            padding: 4px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+        }
 
         textarea {
-            width: 100%; height: 140px; background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border); border-radius: 20px;
-            padding: 18px; color: white; font-family: 'Cairo'; font-size: 15px;
-            resize: none; outline: none; transition: 0.3s;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
-        }
-        textarea:focus { border-color: var(--accent); background: rgba(0,0,0,0.4); }
-
-        .btn-send {
-            background: linear-gradient(135deg, #6c5ce7, #00d2ff);
-            color: white; border: none; width: 100%; padding: 18px;
-            border-radius: 20px; font-size: 16px; font-weight: 900;
-            cursor: pointer; margin-top: 25px;
+            width: 100%;
+            height: 140px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            padding: 16px;
+            color: var(--text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
             transition: all 0.3s;
-            text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.2);
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        .btn-send:active { transform: scale(0.98); opacity: 0.8; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        textarea:focus {
+            border-color: var(--accent);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
 
-        /* تصميم الـ Scrollbar */
-        textarea::-webkit-scrollbar { width: 4px; }
-        textarea::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+        }
+
+        /* أزرار سريعة */
+        .quick-options {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .quick-btn:hover {
+            background: var(--glass-hover);
+            color: var(--text);
+            border-color: var(--accent);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* زر الإرسال */
+        .send-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 100px;
+            padding: 18px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(142, 68, 173, 0.3);
+        }
+
+        .send-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .send-btn:hover::before {
+            left: 100%;
+        }
+
+        .send-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* معلومات إضافية */
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 12px 16px;
+            background: var(--glass);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .credit-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* تلميحات */
+        .hint {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 8px;
+            padding: 8px 16px;
+            background: var(--glass);
+            border-radius: 50px;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Scrollbar */
+        textarea::-webkit-scrollbar {
+            width: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
+    <div class="orb"></div>
+    <div class="orb2"></div>
+    
     <div class="container">
-        <h2>DRAGON PRO 🐉</h2>
-        <span class="subtitle">AI ELITE WRITING ENGINE</span>
+        <div class="header">
+            <div class="logo">🐉</div>
+            <h1>DRAGON PRO</h1>
+            <span class="badge">كاتبك الاحترافي بالذكاء الاصطناعي</span>
+        </div>
+
+        <div class="section-title">
+            <span>اختر النمط</span>
+            <span>⚡</span>
+        </div>
 
         <div class="mode-selector">
+            <!-- Executive / تنفيذي -->
             <label class="mode-option">
                 <input type="radio" name="dragon-mode" value="corporate" checked>
                 <div class="mode-card">
-                    <div class="icon">💼</div>
-                    <div class="mode-name">EXECUTIVE</div>
+                    <div class="mode-icon">💼</div>
+                    <div class="mode-name">تنفيذي</div>
+                    <div class="mode-desc">ايميلات - أعمال</div>
                 </div>
             </label>
 
+            <!-- Academic / أكاديمي -->
             <label class="mode-option">
                 <input type="radio" name="dragon-mode" value="academic">
                 <div class="mode-card">
-                    <div class="icon">🎓</div>
-                    <div class="mode-name">ACADEMIC</div>
+                    <div class="mode-icon">🎓</div>
+                    <div class="mode-name">أكاديمي</div>
+                    <div class="mode-desc">أبحاث - دراسات</div>
                 </div>
             </label>
 
+            <!-- Medical / طبي -->
             <label class="mode-option">
                 <input type="radio" name="dragon-mode" value="medical">
                 <div class="mode-card">
-                    <div class="icon">🩺</div>
-                    <div class="mode-name">MEDICAL</div>
+                    <div class="mode-icon">🩺</div>
+                    <div class="mode-name">طبي</div>
+                    <div class="mode-desc">تقارير - استشارات</div>
                 </div>
             </label>
         </div>
 
-        <textarea id="user-input" placeholder="اكتب ملاحظاتك هنا... دع التنين يتولى الصياغة"></textarea>
-        
-        <button id="send-btn" class="btn-send" onclick="send()">
-            GENERATE OUTPUT ✨
+        <div class="input-section">
+            <div class="input-header">
+                <span class="char-counter" id="charCount">0/500</span>
+                <span style="color: var(--text-muted); font-size: 14px;">📝 اكتب طلبك</span>
+            </div>
+            
+            <textarea id="user-input" placeholder="مثال: ايميل اعتذار عن تأخير شحن&#10;أو: تقرير حالة مرضية لمريض&#10;أو: طلب تمديد اجازة" maxlength="500"></textarea>
+            
+            <div class="quick-options">
+                <div class="quick-btn" onclick="fillExample('ايميل')">📧 ايميل</div>
+                <div class="quick-btn" onclick="fillExample('تقرير')">📊 تقرير</div>
+                <div class="quick-btn" onclick="fillExample('مرض')">🩺 مرضي</div>
+                <div class="quick-btn" onclick="fillExample('بحث')">📚 بحث</div>
+            </div>
+        </div>
+
+        <button id="send-btn" class="send-btn" onclick="send()">
+            <span>⚡</span>
+            <span>اكتب لي</span>
+            <span>✨</span>
         </button>
+
+        <div class="info-bar">
+            <div class="credit-info">
+                <span class="dot"></span>
+                <span>نقطة واحدة لكل طلب</span>
+            </div>
+            <div>🚀 3 أنماط احترافية</div>
+        </div>
+
+        <div class="hint" id="hint">
+            💡 جرب: "مريض وما بقدر اروح عالشغل"
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
+        
+        // تهيئة التطبيق
         tg.expand();
-        tg.headerColor = '#0a0b10';
+        tg.ready();
+        tg.setHeaderColor('#0a0b10');
+        tg.setBackgroundColor('#0a0b10');
+        tg.setBottomBarColor('#0a0b10');
 
-        function send() {
-            const text = document.getElementById('user-input').value;
-            const mode = document.querySelector('input[name="dragon-mode"]:checked').value;
-            const btn = document.getElementById('send-btn');
+        // العناصر
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const charCount = document.getElementById('charCount');
+        const hint = document.getElementById('hint');
+
+        // عدّاد الأحرف
+        userInput.addEventListener('input', function() {
+            const len = this.value.length;
+            charCount.textContent = `${len}/500`;
             
-            if (!text.trim()) {
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                tg.showAlert("⚠️ الرجاء إدخال النص للصياغة!");
+            if (len > 450) {
+                charCount.style.color = '#f39c12';
+            } else {
+                charCount.style.color = 'rgba(255, 255, 255, 0.4)';
+            }
+        });
+
+        // أمثلة سريعة
+        function fillExample(type) {
+            let text = '';
+            
+            switch(type) {
+                case 'ايميل':
+                    text = 'ايميل اعتذار لعميل عن تأخير شحن الطلبية';
+                    break;
+                case 'تقرير':
+                    text = 'تقرير اجتماع مع مدير المبيعات - مناقشة أهداف الربع القادم';
+                    break;
+                case 'مرض':
+                    text = 'مريض يعاني من صداع وحرارة - تقرير طبي';
+                    break;
+                case 'بحث':
+                    text = 'مقدمة بحث عن الذكاء الاصطناعي في التعليم';
+                    break;
+            }
+            
+            userInput.value = text;
+            userInput.dispatchEvent(new Event('input'));
+            
+            // هزة خفيفة
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+            
+            // تغيير التلميح
+            hint.style.background = 'rgba(0, 210, 255, 0.1)';
+            hint.style.color = 'var(--accent)';
+            setTimeout(() => {
+                hint.style.background = 'var(--glass)';
+                hint.style.color = 'var(--text-muted)';
+            }, 500);
+        }
+
+        // دالة الإرسال الرئيسية
+        function send() {
+            const text = userInput.value.trim();
+            const mode = document.querySelector('input[name="dragon-mode"]:checked').value;
+            
+            // التحقق من المدخلات
+            if (!text) {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+                tg.showAlert("⚠️ اكتب الطلب أولاً!");
+                
+                userInput.style.borderColor = '#d63031';
+                setTimeout(() => {
+                    userInput.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }, 500);
+                return;
+            }
+            
+            if (text.length < 5) {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('warning');
+                }
+                tg.showAlert("📝 اكتب وصف أوضح للطلب!");
                 return;
             }
 
-            // هزة خفيفة عند الضغط
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
-
-            btn.disabled = true;
-            btn.innerHTML = "PROCESSING... ⚡";
-
+            // تعطيل الزر
+            sendBtn.disabled = true;
+            sendBtn.style.opacity = '0.7';
+            
+            // تأثير الاهتزاز
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('heavy');
+            }
+            
+            // تغيير نص الزر
+            sendBtn.innerHTML = '<span>⚡</span><span>جاري الكتابة...</span><span>⏳</span>';
+            
+            // تأخير بسيط
             setTimeout(() => {
+                // إرسال البيانات للبوت
                 tg.sendData(`${mode}|${text}`);
                 tg.close();
             }, 600);
         }
+
+        // دعم Ctrl+Enter
+        userInput.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                send();
+            }
+        });
+
+        // تغيير التلميحات عشوائياً
+        const hints = [
+            '💡 جرب: "مريض وما بقدر اروح عالشغل"',
+            '💡 جرب: "ايميل طلب اجتماع مع مدير المبيعات"',
+            '💡 جرب: "تقرير حالة مرضية لمريض ضغط"',
+            '💡 جرب: "رد على شكوى زبون عن جودة المنتج"',
+            '💡 جرب: "مقدمة بحث عن التغير المناخي"'
+        ];
+        
+        setInterval(() => {
+            const randomHint = hints[Math.floor(Math.random() * hints.length)];
+            hint.textContent = randomHint;
+        }, 5000);
+
+        console.log('✅ Dragon Pro WebApp جاهز');
     </script>
 </body>
 </html>
+
+البوت رح يستقبلها ويشتغل عليها 👌
