@@ -5,244 +5,816 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DRAGON PRO 🐉</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #8e44ad;
-            --accent: #00d2ff;
-            --bg: #0a0b10;
-            --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --bg-primary: #0b0b0f;
+            --bg-secondary: #121217;
+            --surface: #1a1a24;
+            --surface-hover: #252530;
+            --border: #2a2a35;
+            --border-glow: rgba(0, 210, 255, 0.3);
+            --text: #ffffff;
+            --text-dim: #8f8fa3;
+            --text-muted: #5f5f73;
+            --accent: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.4);
+            --primary: #8e44ad;
+            --primary-glow: rgba(142, 68, 173, 0.3);
+            --success: #00b894;
+            --gradient-1: linear-gradient(135deg, #8e44ad, #00d2ff);
+            --gradient-2: linear-gradient(135deg, #00d2ff, #8e44ad);
+        }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg);
-            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0b10 100%);
-            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            background: radial-gradient(circle at 50% 0%, #1f1f2b, var(--bg-primary) 80%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: white;
-            overflow: hidden;
+            justify-content: center;
+            color: var(--text);
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        body::before {
-            content: ""; position: absolute; width: 300px; height: 300px;
-            background: var(--primary); filter: blur(150px); opacity: 0.15;
-            top: -50px; left: -50px; z-index: -1;
+        /* Animated background */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNCIgLz48L3N2Zz4=');
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .glow-orb {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.1;
+            filter: blur(80px);
+            top: -200px;
+            right: -200px;
+            z-index: 0;
+            animation: orbFloat 30s infinite alternate;
+        }
+
+        .glow-orb-2 {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.1;
+            filter: blur(80px);
+            bottom: -200px;
+            left: -200px;
+            z-index: 0;
+            animation: orbFloat 30s infinite alternate-reverse;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
         }
 
         .container {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 35px;
-            padding: 40px 25px;
-            width: 92%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 520px;
+            background: rgba(18, 18, 23, 0.8);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(42, 42, 53, 0.5);
+            border-radius: 48px;
+            padding: 32px 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.02);
             position: relative;
-            animation: fadeIn 1s ease-out;
+            z-index: 10;
+            animation: containerAppear 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        h2 { 
-            margin: 0; font-weight: 900; font-size: 28px; 
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #fff, var(--accent));
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--primary), var(--accent), transparent);
+            opacity: 0.5;
+            animation: scan 6s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes containerAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .logo {
+            font-size: 64px;
+            filter: drop-shadow(0 0 30px var(--accent-glow));
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.05); }
+        }
+
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.2;
+            filter: blur(20px);
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin: 0;
+            line-height: 1.2;
         }
 
-        .subtitle { font-size: 13px; color: rgba(255, 255, 255, 0.4); margin-bottom: 30px; display: block; letter-spacing: 0.5px; }
+        .badge {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
 
-        .mode-selector { display: flex; gap: 12px; margin-bottom: 25px; }
-        .mode-option { flex: 1; cursor: pointer; position: relative; }
-        .mode-option input { display: none; }
+        /* Mode selector */
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 28px;
+        }
 
         .mode-card {
-            display: flex; flex-direction: column; align-items: center;
-            padding: 20px 10px; background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border); border-radius: 22px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(26, 26, 36, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 16px 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .icon { font-size: 30px; margin-bottom: 10px; opacity: 0.5; transition: 0.4s; }
-        .mode-name { font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, 0.4); }
+        .mode-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.4s;
+        }
 
-        .mode-option input:checked + .mode-card {
-            background: rgba(142, 68, 173, 0.1);
+        .mode-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .mode-card.active {
+            background: linear-gradient(145deg, rgba(142, 68, 173, 0.2), rgba(0, 210, 255, 0.2));
             border-color: var(--accent);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: scale(1.02);
         }
-        .mode-option input:checked + .mode-card .icon { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 8px var(--accent)); }
-        .mode-option input:checked + .mode-card .mode-name { color: white; }
+
+        .mode-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+
+        .mode-card.active .mode-icon {
+            opacity: 1;
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px var(--accent));
+        }
+
+        .mode-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+
+        .mode-card.active .mode-name {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .mode-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .mode-card.active .mode-desc {
+            color: var(--accent);
+        }
+
+        /* Input area */
+        .input-container {
+            margin-bottom: 24px;
+        }
+
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .input-label i {
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        .char-counter {
+            background: rgba(26, 26, 36, 0.8);
+            border: 1px solid var(--border);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
 
         textarea {
-            width: 100%; height: 140px; background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border); border-radius: 20px;
-            padding: 18px; color: white; font-family: 'Cairo'; font-size: 15px;
-            resize: none; outline: none; transition: 0.3s;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
-        }
-        textarea:focus { border-color: var(--accent); background: rgba(0,0,0,0.4); }
-
-        .btn-send {
-            background: linear-gradient(135deg, #6c5ce7, #00d2ff);
-            color: white; border: none; width: 100%; padding: 18px;
-            border-radius: 20px; font-size: 16px; font-weight: 900;
-            cursor: pointer; margin-top: 25px;
-            transition: all 0.3s;
-            text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.2);
-        }
-        .btn-send:active { transform: scale(0.98); opacity: 0.8; }
-        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        textarea::-webkit-scrollbar { width: 4px; }
-        textarea::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-        .examples-list {
-            margin: 15px 0 10px;
-            text-align: right;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 15px;
-            padding: 10px;
+            width: 100%;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 18px;
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.5);
         }
-        .example-item {
-            padding: 8px 10px;
-            margin: 5px 0;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid transparent;
-        }
-        .example-item:hover {
-            background: rgba(142, 68, 173, 0.15);
+
+        textarea:focus {
             border-color: var(--accent);
-            transform: translateX(-5px);
+            box-shadow: 0 0 0 3px var(--accent-glow), inset 0 4px 15px rgba(0, 0, 0, 0.5);
         }
-        .example-item .example-text {
+
+        textarea::placeholder {
+            color: rgba(95, 95, 115, 0.5);
+            font-size: 14px;
+        }
+
+        /* Examples section */
+        .examples-section {
+            margin: 28px 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-header h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .section-header span {
+            background: rgba(26, 26, 36, 0.8);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 40px;
             font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .examples-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-card {
+            background: rgba(26, 26, 36, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-card:hover {
+            background: rgba(37, 37, 48, 0.8);
+            border-color: var(--accent);
+            transform: translateX(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .example-text {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .example-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .example-type {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .example-type span {
+            font-size: 11px;
+            font-weight: 600;
             color: var(--accent);
-            margin-top: 3px;
-            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .example-arrow {
+            color: var(--text-muted);
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .example-card:hover .example-arrow {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        /* Send button */
+        .send-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 60px;
+            padding: 20px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            margin: 28px 0 20px;
+            text-transform: uppercase;
+            box-shadow: 0 15px 35px rgba(142, 68, 173, 0.3);
+        }
+
+        .send-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .send-btn:hover::before {
+            left: 100%;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(142, 68, 173, 0.5);
+        }
+
+        .send-btn:active {
+            transform: scale(0.98);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0 0;
+            border-top: 1px solid rgba(42, 42, 53, 0.5);
+        }
+
+        .credit-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(26, 26, 36, 0.6);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .mode-indicator {
+            display: flex;
+            gap: 4px;
+        }
+
+        .mode-indicator span {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26, 26, 36, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        /* Hint */
+        .hint {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            background: rgba(26, 26, 36, 0.3);
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            animation: hintPulse 3s infinite;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { border-color: var(--border); }
+            50% { border-color: var(--accent); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
         }
     </style>
 </head>
 <body>
+    <div class="noise"></div>
+    <div class="glow-orb"></div>
+    <div class="glow-orb-2"></div>
+
     <div class="container">
-        <h2>DRAGON PRO 🐉</h2>
-        <span class="subtitle">REAL-WORLD WRITING ASSISTANT</span>
-
-        <div class="mode-selector">
-            <label class="mode-option">
-                <input type="radio" name="dragon-mode" value="executive" checked>
-                <div class="mode-card">
-                    <div class="icon">💼</div>
-                    <div class="mode-name">EXECUTIVE</div>
-                </div>
-            </label>
-
-            <label class="mode-option">
-                <input type="radio" name="dragon-mode" value="academic">
-                <div class="mode-card">
-                    <div class="icon">🎓</div>
-                    <div class="mode-name">ACADEMIC</div>
-                </div>
-            </label>
-
-            <label class="mode-option">
-                <input type="radio" name="dragon-mode" value="medical">
-                <div class="mode-card">
-                    <div class="icon">🩺</div>
-                    <div class="mode-name">MEDICAL</div>
-                </div>
-            </label>
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">🐉</div>
+                <div class="logo-glow"></div>
+            </div>
+            <h1>DRAGON PRO</h1>
+            <span class="badge">REAL-WORLD WRITING ASSISTANT</span>
         </div>
 
-        <textarea id="user-input" placeholder="Describe your situation naturally..."></textarea>
-        
-        <!-- Real-world examples that people actually say to AI -->
-        <div class="examples-list">
-            <div class="example-item" onclick="useExample(this)">
-                <div>💼 "The client is angry about the delay and wants a refund"</div>
-                <div class="example-text">→ Professional apology email</div>
+        <!-- Mode Selector -->
+        <div class="mode-grid">
+            <div class="mode-card active" data-mode="executive" onclick="selectMode('executive')">
+                <div class="mode-icon">💼</div>
+                <div class="mode-name">EXECUTIVE</div>
+                <div class="mode-desc">Business & Corporate</div>
             </div>
-            <div class="example-item" onclick="useExample(this)">
-                <div>🩺 "My patient has been having chest pain for 3 days"</div>
-                <div class="example-text">→ Medical report</div>
+            <div class="mode-card" data-mode="academic" onclick="selectMode('academic')">
+                <div class="mode-icon">🎓</div>
+                <div class="mode-name">ACADEMIC</div>
+                <div class="mode-desc">Research & Papers</div>
             </div>
-            <div class="example-item" onclick="useExample(this)">
-                <div>🎓 "I need help writing my thesis introduction about climate change"</div>
-                <div class="example-text">→ Academic introduction</div>
-            </div>
-            <div class="example-item" onclick="useExample(this)">
-                <div>💼 "My boss asked for a report on last month's sales performance"</div>
-                <div class="example-text">→ Sales report</div>
-            </div>
-            <div class="example-item" onclick="useExample(this)">
-                <div>🩺 "Write a prescription for a patient with high blood pressure"</div>
-                <div class="example-text">→ Medical prescription</div>
+            <div class="mode-card" data-mode="medical" onclick="selectMode('medical')">
+                <div class="mode-icon">🩺</div>
+                <div class="mode-name">MEDICAL</div>
+                <div class="mode-desc">Clinical & Reports</div>
             </div>
         </div>
-        
-        <button id="send-btn" class="btn-send" onclick="send()">
-            WRITE FOR ME ✨
+
+        <!-- Input Area -->
+        <div class="input-container">
+            <div class="input-header">
+                <span class="input-label">
+                    <i>✧</i>
+                    DESCRIBE YOUR SITUATION
+                </span>
+                <span class="char-counter" id="charCount">0/500</span>
+            </div>
+            <textarea 
+                id="userInput" 
+                placeholder="e.g., The client is furious about the delay and wants a refund..."
+                maxlength="500"
+            ></textarea>
+        </div>
+
+        <!-- Real-World Examples -->
+        <div class="examples-section">
+            <div class="section-header">
+                <h3>REAL-WORLD EXAMPLES</h3>
+                <span>LIVE</span>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card" onclick="useExample(0)">
+                    <div class="example-text">"The client is angry about the delay and wants a refund"</div>
+                    <div class="example-meta">
+                        <div class="example-type">
+                            <span>💼</span>
+                            <span>EXECUTIVE</span>
+                        </div>
+                        <div class="example-arrow">← USE THIS</div>
+                    </div>
+                </div>
+                <div class="example-card" onclick="useExample(1)">
+                    <div class="example-text">"My patient has been having chest pain for 3 days"</div>
+                    <div class="example-meta">
+                        <div class="example-type">
+                            <span>🩺</span>
+                            <span>MEDICAL</span>
+                        </div>
+                        <div class="example-arrow">← USE THIS</div>
+                    </div>
+                </div>
+                <div class="example-card" onclick="useExample(2)">
+                    <div class="example-text">"Need help with my thesis introduction on climate change"</div>
+                    <div class="example-meta">
+                        <div class="example-type">
+                            <span>🎓</span>
+                            <span>ACADEMIC</span>
+                        </div>
+                        <div class="example-arrow">← USE THIS</div>
+                    </div>
+                </div>
+                <div class="example-card" onclick="useExample(3)">
+                    <div class="example-text">"Boss asked for last month's sales report by EOD"</div>
+                    <div class="example-meta">
+                        <div class="example-type">
+                            <span>💼</span>
+                            <span>EXECUTIVE</span>
+                        </div>
+                        <div class="example-arrow">← USE THIS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Send Button -->
+        <button class="send-btn" id="sendBtn" onclick="send()">
+            <span>⚡</span>
+            <span>GENERATE</span>
+            <span>✨</span>
         </button>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="credit-badge">
+                <span class="pulse-dot"></span>
+                <span>1 CREDIT / REQUEST</span>
+            </div>
+            <div class="mode-indicator">
+                <span>💼</span>
+                <span>🎓</span>
+                <span>🩺</span>
+            </div>
+        </div>
+
+        <!-- Dynamic Hint -->
+        <div class="hint" id="hint">
+            ⚡ Try: "The client is angry about the delay..."
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        tg.headerColor = '#0a0b10';
+        tg.ready();
+        tg.setHeaderColor('#0b0b0f');
+        tg.setBackgroundColor('#0b0b0f');
 
-        function useExample(element) {
-            const text = element.childNodes[0].nodeValue.trim();
-            document.getElementById('user-input').value = text;
+        // Elements
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const charCount = document.getElementById('charCount');
+        const hint = document.getElementById('hint');
+        const modeCards = document.querySelectorAll('.mode-card');
+
+        // Current mode
+        let currentMode = 'executive';
+
+        // Examples data
+        const examples = [
+            { text: "The client is angry about the delay and wants a refund", mode: "executive" },
+            { text: "My patient has been having chest pain for 3 days", mode: "medical" },
+            { text: "Need help with my thesis introduction on climate change", mode: "academic" },
+            { text: "Boss asked for last month's sales report by EOD", mode: "executive" }
+        ];
+
+        // Character counter
+        userInput.addEventListener('input', function() {
+            const len = this.value.length;
+            charCount.textContent = `${len}/500`;
+            charCount.style.color = len > 450 ? '#ff6b6b' : '#5f5f73';
+        });
+
+        // Select mode
+        function selectMode(mode) {
+            currentMode = mode;
+            modeCards.forEach(card => {
+                if (card.dataset.mode === mode) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
         }
 
+        // Use example
+        function useExample(index) {
+            const example = examples[index];
+            userInput.value = example.text;
+            selectMode(example.mode);
+            userInput.dispatchEvent(new Event('input'));
+
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+
+            // Visual feedback
+            hint.style.background = 'rgba(0, 210, 255, 0.1)';
+            hint.style.borderColor = 'var(--accent)';
+            setTimeout(() => {
+                hint.style.background = 'rgba(26, 26, 36, 0.3)';
+                hint.style.borderColor = 'var(--border)';
+            }, 500);
+        }
+
+        // Send
         function send() {
-            const text = document.getElementById('user-input').value.trim();
-            const mode = document.querySelector('input[name="dragon-mode"]:checked').value;
-            const btn = document.getElementById('send-btn');
-            
+            const text = userInput.value.trim();
+
             if (!text) {
                 if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                tg.showAlert("⚠️ Tell me what you need help with!");
+                tg.showAlert("⚠️ Describe what you need help with");
+                userInput.style.borderColor = '#ff6b6b';
+                setTimeout(() => userInput.style.borderColor = 'var(--border)', 500);
+                return;
+            }
+
+            if (text.length < 5) {
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                tg.showAlert("📝 Please be more specific");
                 return;
             }
 
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
 
-            btn.disabled = true;
-            btn.innerHTML = "WRITING... ⚡";
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<span>⚡</span><span>PROCESSING</span><span>⏳</span>';
 
             setTimeout(() => {
-                tg.sendData(`${mode}|${text}`);
+                tg.sendData(`${currentMode}|${text}`);
                 tg.close();
             }, 600);
         }
 
-        // Ctrl+Enter support
-        document.getElementById('user-input').addEventListener('keydown', function(e) {
+        // Ctrl+Enter
+        userInput.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 e.preventDefault();
                 send();
             }
         });
+
+        // Rotating hints
+        const hints = [
+            '⚡ Try: "The client is angry about the delay..."',
+            '⚡ Try: "Chest pain for 3 days - need a report"',
+            '⚡ Try: "Help with thesis introduction"',
+            '⚡ Try: "Sales report for last month"',
+            '⚡ Try: "Patient with high blood pressure"'
+        ];
+
+        let hintIndex = 0;
+        setInterval(() => {
+            hintIndex = (hintIndex + 1) % hints.length;
+            hint.textContent = hints[hintIndex];
+        }, 4000);
+
+        // Initialize
+        console.log('🐉 Dragon Pro - Premium Version');
     </script>
 </body>
 </html>
