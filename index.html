@@ -3,191 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dragon Pro 🐉</title>
+    <title>Dragon Pro ✨</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #1a1c1e;
-            --card-bg: #25282b;
-            --gold-gradient: linear-gradient(180deg, #ffd700, #b8860b);
-            --border-gold: rgba(255, 215, 0, 0.3);
-            --text-white: #ffffff;
-            --text-gray: #a0a0a0;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .main-card {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 40px;
-            padding: 30px 20px;
-            border: 1px solid var(--border-gold);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            text-align: center;
-        }
-
-        .header-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 5px;
-        }
-
-        .header-title img { width: 35px; }
-        .header-title h1 { font-size: 28px; font-weight: 800; margin: 0; color: #f5f5f5; }
-
-        .subtitle { color: var(--gold); font-size: 14px; margin-bottom: 25px; display: block; }
-
-        .modes-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .mode-card {
-            background: transparent;
-            border: 2px solid var(--border-gold);
-            border-radius: 25px;
-            padding: 20px 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .mode-card.active {
-            border-color: #ffd700;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-            background: rgba(255, 215, 0, 0.05);
-        }
-
-        .mode-card img { width: 45px; margin-bottom: 10px; }
-        .mode-card h3 { font-size: 18px; margin: 5px 0; color: #ffd700; }
-        .mode-card p { font-size: 11px; color: var(--text-gray); margin: 0; }
-
-        .input-area {
-            background: #1e2022;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 25px;
-            border: 1px solid #333;
-        }
-
-        textarea {
-            width: 100%;
-            height: 100px;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-family: 'Tajawal', sans-serif;
-            resize: none;
-            outline: none;
-            text-align: right;
-            font-size: 15px;
-        }
-
-        .process-btn {
-            width: 100%;
-            background: var(--gold-gradient);
-            border: none;
-            border-radius: 20px;
-            padding: 18px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #000;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: 0.2s;
-        }
-
-        .process-btn:active { transform: scale(0.98); }
-
+        :root { --bg: #1a1c1e; --card: #25282b; --gold: #ffd700; --text: #ffffff; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); padding: 15px; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        .main-card { background: var(--card); border-radius: 35px; padding: 25px; border: 1px solid rgba(255, 215, 0, 0.2); width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .header h1 { font-size: 24px; color: var(--gold); margin: 0; }
+        .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .mode-card { border: 2px solid rgba(255, 215, 0, 0.1); border-radius: 20px; padding: 15px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .mode-card.active { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); }
+        .mode-card img { width: 40px; margin-bottom: 8px; }
+        .mode-card h3 { font-size: 16px; margin: 5px 0; color: var(--gold); }
+        .input-box { background: #121416; border-radius: 20px; padding: 15px; margin-bottom: 20px; border: 1px solid #333; }
+        textarea { width: 100%; height: 120px; background: transparent; border: none; color: #fff; outline: none; resize: none; text-align: right; font-size: 15px; }
+        .slider { width: 100%; margin-bottom: 20px; accent-color: var(--gold); }
+        .btn { width: 100%; padding: 18px; background: linear-gradient(180deg, #ffd700, #b8860b); border: none; border-radius: 20px; color: #000; font-weight: 800; font-size: 18px; cursor: pointer; }
     </style>
 </head>
 <body>
-
-<div class="main-card">
-    <div class="header-title">
-        <img src="https://img.icons8.com/color/96/dragon.png" alt="dragon">
-        <h1>Dragon Pro ✨</h1>
-    </div>
-    <span class="subtitle">اختر نوع الصياغة المطلوبة</span>
-
-    <div class="modes-container">
-        <div class="mode-card active" onclick="setMode('executive', this)">
-            <img src="https://img.icons8.com/fluency/96/briefcase.png">
-            <h3>إداري</h3>
-            <p>صياغة رسمية للمراسلات</p>
+    <div class="main-card">
+        <div class="header"><h1>🐉 Dragon Pro ✨</h1></div>
+        <div class="modes">
+            <div class="mode-card active" onclick="setMode('executive', this)">
+                <img src="https://img.icons8.com/fluency/96/briefcase.png"><h3>إداري</h3>
+            </div>
+            <div class="mode-card" onclick="setMode('academic', this)">
+                <img src="https://img.icons8.com/fluency/96/graduation-cap.png"><h3>جامعي</h3>
+            </div>
+            <div class="mode-card" onclick="setMode('medical', this)">
+                <img src="https://img.icons8.com/fluency/96/medical-heart.png"><h3>طبي</h3>
+            </div>
+            <div class="mode-card" onclick="setMode('cyber', this)">
+                <img src="https://img.icons8.com/fluency/96/shield.png"><h3>سايبر</h3>
+            </div>
         </div>
-        <div class="mode-card" onclick="setMode('academic', this)">
-            <img src="https://img.icons8.com/fluency/96/graduation-cap.png">
-            <h3>جامعي</h3>
-            <p>أبحاث وتقارير أكاديمية</p>
+        <div class="input-box">
+            <textarea id="txt" placeholder="اكتب هنا... (Write here...) (Écrivez ici...)"></textarea>
         </div>
-        <div class="mode-card" onclick="setMode('medical', this)">
-            <img src="https://img.icons8.com/fluency/96/medical-heart.png">
-            <h3>طبي</h3>
-            <p>تقارير SOAP احترافية</p>
-        </div>
-        <div class="mode-card" onclick="setMode('cyber', this)">
-            <img src="https://img.icons8.com/fluency/96/shield.png">
-            <h3>سايبر</h3>
-            <p>تحليل ثغرات وأمان</p>
-        </div>
+        <input type="range" min="1" max="3" value="2" class="slider" id="ins">
+        <button class="btn" onclick="send()">✨ ابدأ المعالجة الذكية</button>
     </div>
 
-    <div class="input-area">
-        <textarea id="userInput" placeholder="اكتب الملاحظات أو رؤوس الأقلام هنا..."></textarea>
-    </div>
-
-    <button class="process-btn" onclick="sendToBot()">✨ ابدأ المعالجة الذكية</button>
-</div>
-
-<script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-    
-    let currentMode = 'executive';
-
-    function setMode(mode, element) {
-        currentMode = mode;
-        // إزالة الـ active من الكل
-        document.querySelectorAll('.mode-card').forEach(card => card.classList.remove('active'));
-        // إضافة active للمختار
-        element.classList.add('active');
-        
-        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-    }
-
-    function sendToBot() {
-        const text = document.getElementById('userInput').value.trim();
-        if (!text) {
-            tg.showAlert("الرجاء كتابة نص أولاً!");
-            return;
+    <script>
+        const tg = window.Telegram.WebApp;
+        let mode = 'executive';
+        function setMode(m, e) {
+            mode = m;
+            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+            e.classList.add('active');
+            tg.HapticFeedback.impactOccurred('light');
         }
-
-        // إرسال البيانات للبوت بنفس التنسيق اللي بيعرفه (mode|intensity|text)
-        // حطينا intensity افتراضي 2
-        tg.sendData(`${currentMode}|2|${text}`);
-        tg.close();
-    }
-</script>
-
+        function send() {
+            const t = document.getElementById('txt').value.trim();
+            if(!t) return tg.showAlert("Please enter text!");
+            const i = document.getElementById('ins').value;
+            tg.sendData(`${mode}|${i}|${t}`);
+            tg.close();
+        }
+    </script>
 </body>
 </html>
