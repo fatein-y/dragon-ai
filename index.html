@@ -3,163 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dragon Pro AI</title>
+    <title>Dragon Pro 🐉</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #D4AF37;
-            --dark-gold: #996515;
-            --bg: #0a0a0a;
-            --card-bg: #1a1a1a;
-            --text: #ffffff;
+            --bg-dark: #1a1c1e;
+            --card-bg: #25282b;
+            --gold-gradient: linear-gradient(180deg, #ffd700, #b8860b);
+            --border-gold: rgba(255, 215, 0, 0.3);
+            --text-white: #ffffff;
+            --text-gray: #a0a0a0;
         }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-dark);
+            color: var(--text-white);
             margin: 0;
             padding: 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: var(--gold);
-            font-size: 28px;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-
-        .header p {
-            font-size: 14px;
-            color: #888;
-        }
-
-        .container {
+        .main-card {
+            background-color: var(--card-bg);
             width: 100%;
             max-width: 400px;
+            border-radius: 40px;
+            padding: 30px 20px;
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
-        .label {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--gold);
-            font-weight: bold;
+        .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 5px;
         }
 
-        select, textarea {
-            width: 100%;
-            padding: 12px;
-            background: var(--card-bg);
-            border: 1px solid var(--dark-gold);
-            border-radius: 10px;
-            color: white;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 16px;
-            box-sizing: border-box;
+        .header-title img { width: 35px; }
+        .header-title h1 { font-size: 28px; font-weight: 800; margin: 0; color: #f5f5f5; }
+
+        .subtitle { color: var(--gold); font-size: 14px; margin-bottom: 25px; display: block; }
+
+        .modes-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             margin-bottom: 20px;
-            outline: none;
+        }
+
+        .mode-card {
+            background: transparent;
+            border: 2px solid var(--border-gold);
+            border-radius: 25px;
+            padding: 20px 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .mode-card.active {
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .mode-card img { width: 45px; margin-bottom: 10px; }
+        .mode-card h3 { font-size: 18px; margin: 5px 0; color: #ffd700; }
+        .mode-card p { font-size: 11px; color: var(--text-gray); margin: 0; }
+
+        .input-area {
+            background: #1e2022;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #333;
         }
 
         textarea {
-            height: 150px;
-            resize: none;
-        }
-
-        select:focus, textarea:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
-        }
-
-        .btn-send {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            height: 100px;
+            background: transparent;
             border: none;
-            border-radius: 12px;
-            color: #000;
-            font-weight: bold;
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            resize: none;
+            outline: none;
+            text-align: right;
+            font-size: 15px;
+        }
+
+        .process-btn {
+            width: 100%;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 20px;
+            padding: 18px;
             font-size: 18px;
+            font-weight: 700;
+            color: #000;
             cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: 0.2s;
         }
 
-        .btn-send:active {
-            transform: scale(0.98);
-        }
+        .process-btn:active { transform: scale(0.98); }
 
-        .footer {
-            margin-top: auto;
-            padding: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #555;
-        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>DRAGON PRO</h1>
-        <p>الذكاء الاصطناعي الاحترافي للكتابة</p>
+<div class="main-card">
+    <div class="header-title">
+        <img src="https://img.icons8.com/color/96/dragon.png" alt="dragon">
+        <h1>Dragon Pro ✨</h1>
+    </div>
+    <span class="subtitle">اختر نوع الصياغة المطلوبة</span>
+
+    <div class="modes-container">
+        <div class="mode-card active" onclick="setMode('executive', this)">
+            <img src="https://img.icons8.com/fluency/96/briefcase.png">
+            <h3>إداري</h3>
+            <p>صياغة رسمية للمراسلات</p>
+        </div>
+        <div class="mode-card" onclick="setMode('academic', this)">
+            <img src="https://img.icons8.com/fluency/96/graduation-cap.png">
+            <h3>جامعي</h3>
+            <p>أبحاث وتقارير أكاديمية</p>
+        </div>
+        <div class="mode-card" onclick="setMode('medical', this)">
+            <img src="https://img.icons8.com/fluency/96/medical-heart.png">
+            <h3>طبي</h3>
+            <p>تقارير SOAP احترافية</p>
+        </div>
+        <div class="mode-card" onclick="setMode('cyber', this)">
+            <img src="https://img.icons8.com/fluency/96/shield.png">
+            <h3>سايبر</h3>
+            <p>تحليل ثغرات وأمان</p>
+        </div>
     </div>
 
-    <div class="container">
-        <label class="label">اختيار النمط:</label>
-        <select id="mode">
-            <option value="تنفيذي">💼 نمط تنفيذي (إيميلات/رسمي)</option>
-            <option value="أكاديمي">🎓 نمط أكاديمي (أبحاث/دراسة)</option>
-            <option value="طبي">🩺 نمط طبي (تقارير/مصطلحات)</option>
-        </select>
-
-        <label class="label">النص المطلوب تحويله:</label>
-        <textarea id="userInput" placeholder="اكتب نصك هنا..."></textarea>
-
-        <button class="btn-send" onclick="sendData()">🚀 إرسال الطلب</button>
+    <div class="input-area">
+        <textarea id="userInput" placeholder="اكتب الملاحظات أو رؤوس الأقلام هنا..."></textarea>
     </div>
 
-    <div class="footer">
-        بواسطة Dragon AI System © 2024
-    </div>
+    <button class="process-btn" onclick="sendToBot()">✨ ابدأ المعالجة الذكية</button>
+</div>
 
-    <script>
-        // تهيئة Telegram WebApp
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // لفتح الواجهة على كامل الشاشة
-        tg.ready();
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    
+    let currentMode = 'executive';
 
-        // تغيير ألوان الـ Header والـ Button لتناسب التلغرام
-        tg.setHeaderColor('#0a0a0a');
-        tg.setBackgroundColor('#0a0a0a');
+    function setMode(mode, element) {
+        currentMode = mode;
+        // إزالة الـ active من الكل
+        document.querySelectorAll('.mode-card').forEach(card => card.classList.remove('active'));
+        // إضافة active للمختار
+        element.classList.add('active');
+        
+        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+    }
 
-        function sendData() {
-            const mode = document.getElementById('mode').value;
-            const text = document.getElementById('userInput').value;
-
-            if (!text.trim()) {
-                alert("الرجاء كتابة نص أولاً!");
-                return;
-            }
-
-            // تجميع البيانات بالصيغة اللي ناطرها كود الـ Python (mode|text)
-            const data = `${mode}|${text}`;
-            
-            // إرسال البيانات للبوت
-            tg.sendData(data);
-            
-            // إغلاق الـ WebApp تلقائياً بعد الإرسال
-            tg.close();
+    function sendToBot() {
+        const text = document.getElementById('userInput').value.trim();
+        if (!text) {
+            tg.showAlert("الرجاء كتابة نص أولاً!");
+            return;
         }
-    </script>
+
+        // إرسال البيانات للبوت بنفس التنسيق اللي بيعرفه (mode|intensity|text)
+        // حطينا intensity افتراضي 2
+        tg.sendData(`${currentMode}|2|${text}`);
+        tg.close();
+    }
+</script>
+
 </body>
 </html>
