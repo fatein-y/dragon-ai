@@ -1,61 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dragon Pro AI</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* إضافة لون خاص لمود السايبر */
-        .mode-btn[data-mode="cyber"].active {
-            background: linear-gradient(135deg, #00f2fe, #4facfe); /* لون بلو بروفيشنال */
-            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #996515;
+            --bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--gold);
+            font-size: 28px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--dark-gold);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        select:focus, textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-send {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn-send:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <div class="bg-glow"></div>
+
+    <div class="header">
+        <h1>DRAGON PRO</h1>
+        <p>الذكاء الاصطناعي الاحترافي للكتابة</p>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <div class="crown">👑</div>
-            <h1>DRAGON PRO</h1>
-            <div class="tagline">The Elite Refiner</div>
-        </div>
+        <label class="label">اختيار النمط:</label>
+        <select id="mode">
+            <option value="تنفيذي">💼 نمط تنفيذي (إيميلات/رسمي)</option>
+            <option value="أكاديمي">🎓 نمط أكاديمي (أبحاث/دراسة)</option>
+            <option value="طبي">🩺 نمط طبي (تقارير/مصطلحات)</option>
+        </select>
 
-        <div class="mode-selector">
-            <button class="mode-btn active" data-mode="polish" onclick="setMode('polish')"><span>✨</span>POLISH</button>
-            <button class="mode-btn" data-mode="shorten" onclick="setMode('shorten')"><span>✂️</span>SHORT</button>
-            <button class="mode-btn" data-mode="cyber" onclick="setMode('cyber')"><span>🛡️</span>CYBER</button>
-            <button class="mode-btn" data-mode="tone" onclick="setMode('tone')"><span>🎭</span>TONE</button>
-        </div>
+        <label class="label">النص المطلوب تحويله:</label>
+        <textarea id="userInput" placeholder="اكتب نصك هنا..."></textarea>
 
-        <div class="card">
-            <textarea id="input" placeholder="أدخل النص هنا للتحويل أو التحليل..."></textarea>
-            <div class="quick-actions">
-                <button class="action-btn" onclick="quickAction('cyber_scan')">🛡️ Cyber Scan</button>
-                <button class="action-btn" onclick="quickAction('formal')">👔 Formalize</button>
-            </div>
-        </div>
+        <button class="btn-send" onclick="sendData()">🚀 إرسال الطلب</button>
+    </div>
 
-        <div class="intensity-section">
-            <div class="intensity-label"><span>Transformation Level</span><span id="intVal">Medium</span></div>
-            <input type="range" min="1" max="3" value="2" class="slider" id="intensity" oninput="updateIntensity()">
-        </div>
-
-        <button class="send-btn" onclick="process()">⚡ REFINE NOW ✨</button>
+    <div class="footer">
+        بواسطة Dragon AI System © 2024
     </div>
 
     <script>
+        // تهيئة Telegram WebApp
         const tg = window.Telegram.WebApp;
-        let currentMode = 'polish';
+        tg.expand(); // لفتح الواجهة على كامل الشاشة
+        tg.ready();
 
-        function setMode(m) {
-            currentMode = m;
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
-            tg.HapticFeedback.impactOccurred('light');
-        }
+        // تغيير ألوان الـ Header والـ Button لتناسب التلغرام
+        tg.setHeaderColor('#0a0a0a');
+        tg.setBackgroundColor('#0a0a0a');
 
-        function process() {
-            const text = document.getElementById('input').value.trim();
-            if(!text) return tg.showAlert("Please enter text");
-            const intensity = document.getElementById('intensity').value;
-            tg.sendData(`${currentMode}|${intensity}|${text}`);
+        function sendData() {
+            const mode = document.getElementById('mode').value;
+            const text = document.getElementById('userInput').value;
+
+            if (!text.trim()) {
+                alert("الرجاء كتابة نص أولاً!");
+                return;
+            }
+
+            // تجميع البيانات بالصيغة اللي ناطرها كود الـ Python (mode|text)
+            const data = `${mode}|${text}`;
+            
+            // إرسال البيانات للبوت
+            tg.sendData(data);
+            
+            // إغلاق الـ WebApp تلقائياً بعد الإرسال
             tg.close();
         }
     </script>
