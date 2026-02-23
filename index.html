@@ -3,160 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dragon Pro 🐉</title>
+    <title>Dragon Pro AI - Golden Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --accent: #fd79a8;
-            --glass: rgba(255, 255, 255, 0.08);
-            --border: rgba(255, 255, 255, 0.15);
+            --gold: #D4AF37;
+            --dark-gold: #996515;
+            --black: #0f0f0f;
+            --dark-gray: #1a1a1a;
+            --text-white: #e0e0e0;
         }
-
-        * { box-sizing: border-box; }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background: radial-gradient(circle at top left, #2d3436, #000000);
-            background-size: 400% 400%;
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--black);
+            color: var(--text-white);
             margin: 0;
-            min-height: 100vh;
+            padding: 15px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            color: white;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        .container {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 30px 25px;
-            width: 90%;
-            max-width: 400px;
+        .header {
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            margin-bottom: 25px;
+            padding: 20px;
+            border-bottom: 2px solid var(--gold);
+            width: 100%;
         }
 
-        h2 { margin: 0; font-weight: 800; font-size: 26px; color: #fff; }
-        .subtitle { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 25px; display: block; }
-
-        .mode-selector { display: flex; gap: 15px; margin-bottom: 20px; }
-        .mode-option { flex: 1; cursor: pointer; }
-        .mode-option input { display: none; }
-
-        .mode-card {
-            display: flex; flex-direction: column; align-items: center;
-            padding: 18px 10px; background: rgba(255, 255, 255, 0.03);
-            border: 2px solid transparent; border-radius: 20px; transition: 0.3s;
+        .header h1 {
+            color: var(--gold);
+            font-size: 24px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        .mode-card .icon { font-size: 32px; margin-bottom: 8px; filter: grayscale(100%); transition: 0.3s; }
-        .mode-card .mode-name { font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, 0.5); }
-
-        /* الوصف المختفي */
-        .mode-card .mode-desc {
-            font-size: 10px; color: var(--secondary);
-            max-height: 0; opacity: 0; overflow: hidden; transition: 0.4s;
+        .main-container {
+            width: 100%;
+            max-width: 500px;
         }
-
-        /* حالة التفعيل */
-        .mode-option input:checked + .mode-card {
-            background: rgba(108, 92, 231, 0.15);
-            border-color: var(--primary);
-            box-shadow: 0 0 25px rgba(108, 92, 231, 0.4);
-            transform: translateY(-5px);
-        }
-        .mode-option input:checked + .mode-card .icon { filter: grayscale(0%); transform: scale(1.1); }
-        .mode-option input:checked + .mode-card .mode-name { color: white; }
-        .mode-option input:checked + .mode-card .mode-desc { max-height: 40px; opacity: 1; margin-top: 5px; }
 
         textarea {
-            width: 100%; height: 110px; background: rgba(0, 0, 0, 0.25);
-            border: 2px solid var(--border); border-radius: 18px;
-            padding: 15px; color: white; font-family: 'Cairo'; font-size: 15px;
-            resize: none; outline: none; transition: 0.3s;
+            width: 100%;
+            height: 150px;
+            background-color: var(--dark-gray);
+            border: 1px solid var(--dark-gold);
+            border-radius: 12px;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+            resize: none;
         }
-        textarea:focus { border-color: var(--secondary); }
 
-        .btn-send {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white; border: none; width: 100%; padding: 15px;
-            border-radius: 18px; font-size: 17px; font-weight: 800;
-            cursor: pointer; margin-top: 20px; box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+        textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .modes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .mode-btn {
+            background: linear-gradient(145deg, var(--dark-gray), #222);
+            border: 1px solid var(--dark-gold);
+            color: var(--gold);
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .mode-btn:active {
+            transform: scale(0.95);
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .auto-btn {
+            grid-column: span 2;
+            background: linear-gradient(145deg, var(--gold), var(--dark-gold));
+            color: var(--black);
+            border: none;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Dragon Pro 🐉</h2>
-        <span class="subtitle">اختر نوع الصياغة المطلوبة</span>
 
-        <div class="mode-selector">
-            <label class="mode-option">
-                <input type="radio" name="dragon-mode" value="corporate" checked>
-                <div class="mode-card">
-                    <div class="icon">💼</div>
-                    <div class="mode-name">إداري</div>
-                    <div class="mode-desc">تقارير رسمية واحترافية</div>
-                </div>
-            </label>
+    <div class="header">
+        <h1>🐉 DRAGON PRO AI</h1>
+        <p style="color: var(--dark-gold); font-size: 14px;">النسخة الملكية - صياغة بشرية متطورة</p>
+    </div>
 
-            <label class="mode-option">
-                <input type="radio" name="dragon-mode" value="academic">
-                <div class="mode-card">
-                    <div class="icon">🎓</div>
-                    <div class="mode-name">جامعي</div>
-                    <div class="mode-desc">أبحاث طبية فرنسية (USJ)</div>
-                </div>
-            </label>
+    <div class="main-container">
+        <textarea id="userInput" placeholder="أدخل النص هنا ليتم تحويله بعناية..."></textarea>
+
+        <div class="modes-grid">
+            <button class="mode-btn auto-btn" onclick="sendData('auto')">🤖 ذكاء تلقائي (Auto)</button>
+            <button class="mode-btn" onclick="sendData('corporate')">💼 Corporate</button>
+            <button class="mode-btn" onclick="sendData('academic')">🎓 Academic</button>
+            <button class="mode-btn" onclick="sendData('medical')">⚕️ Medical</button>
+            <button class="mode-btn" onclick="sendData('cyber')">🛡️ Cyber</button>
         </div>
+    </div>
 
-        <textarea id="user-input" placeholder="اكتب الملاحظات أو رؤوس الأقلام هنا..."></textarea>
-        <button id="send-btn" class="btn-send" onclick="send()">✨ ابدأ المعالجة الذكية</button>
+    <div class="footer-note">
+        سيتم خصم 1 نقطة عند كل عملية معالجة
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
+        tg.expand(); // يفتح التطبيق على كامل الشاشة
 
-        // هزة خفيفة عند تغيير المود
-        document.querySelectorAll('.mode-option').forEach(opt => {
-            opt.addEventListener('click', () => {
-                if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
-            });
-        });
-
-        function send() {
-            const text = document.getElementById('user-input').value;
-            // سحب القيمة من الـ Radio Button المختار
-            const mode = document.querySelector('input[name="dragon-mode"]:checked').value;
-            const btn = document.getElementById('send-btn');
-            
+        function sendData(mode) {
+            const text = document.getElementById('userInput').value;
             if (!text.trim()) {
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                tg.showAlert("⚠️ بليز اكتب شي قبل ما تبعت!");
+                tg.showAlert("الرجاء إدخال نص أولاً!");
                 return;
             }
-
-            btn.disabled = true;
-            btn.innerText = "⏳ جاري الإرسال...";
-
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-
-            // إرسال البيانات بنفس الصيغة اللي بيفهمها البايثون عندك: mode|text
-            setTimeout(() => {
-                tg.sendData(`${mode}|${text}`);
-                tg.close();
-            }, 400);
+            
+            // نرسل البيانات للبوت بالصيغة اللي برمجناها: mode|text
+            const payload = mode + "|" + text;
+            tg.sendData(payload);
+            tg.close();
         }
     </script>
 </body>
