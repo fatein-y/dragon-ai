@@ -3,40 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dragon Pro AI - Gold</title>
+    <title>Dragon AI Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #151515; }
-        body { font-family: 'Tajawal', sans-serif; background-color: var(--black); color: #fff; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        h1 { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); font-size: 24px; margin-bottom: 5px; }
-        p { color: #888; font-size: 12px; margin-bottom: 20px; }
-        textarea { width: 100%; height: 160px; background: var(--dark-gray); border: 1px solid #333; border-radius: 12px; color: #fff; padding: 15px; font-size: 16px; outline: none; transition: 0.3s; }
-        textarea:focus { border-color: var(--gold); }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 20px; }
-        .btn { background: var(--dark-gray); border: 1px solid var(--gold); color: var(--gold); padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'Tajawal'; }
-        .btn:active { background: var(--gold); color: var(--black); transform: scale(0.98); }
+        :root {
+            --gold: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --dragon-red: #ff3131;
+            --deep-black: #0a0a0a;
+            --card-bg: #161616;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--deep-black);
+            background-image: radial-gradient(circle at top right, #1a1010, transparent);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            filter: drop-shadow(0 0 5px rgba(186, 149, 63, 0.3));
+        }
+
+        .header p {
+            color: #888;
+            font-size: 14px;
+            margin-top: 0;
+        }
+
+        /* Mode Selector Grid */
+        .mode-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .mode-btn {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            color: #888;
+            padding: 18px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-btn.active {
+            border: 1px solid #bf953f;
+            color: #fff;
+            background: #1e1e1e;
+            box-shadow: 0 0 15px rgba(191, 149, 63, 0.2);
+        }
+
+        .mode-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        /* Text Area */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 20px;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 16px;
+            resize: none;
+            outline: none;
+            transition: 0.3s;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        textarea:focus {
+            border-color: #bf953f;
+            box-shadow: 0 0 10px rgba(191, 149, 63, 0.1);
+        }
+
+        /* Premium Gold Button */
+        .submit-btn {
+            width: 100%;
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .submit-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Eye Glow Decoration */
+        .dragon-eye {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            color: var(--dragon-red);
+            font-size: 12px;
+            text-shadow: 0 0 8px var(--dragon-red);
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
-    <h1>DRAGON PRO</h1>
-    <p>صياغة بشرية ملكية</p>
-    <textarea id="userInput" placeholder="ضع نصك هنا..."></textarea>
-    <div class="grid">
-        <button class="btn" onclick="send('corporate')">💼 Corporate</button>
-        <button class="btn" onclick="send('academic')">🎓 Academic</button>
-        <button class="btn" onclick="send('medical')">⚕️ Medical</button>
-        <button class="btn" onclick="send('cyber')">🛡️ Cyber</button>
+
+<div class="container">
+    <div class="header">
+        <h1>DRAGON WRITER PRO</h1>
+        <p>الذكاء الاصطناعي بقوة التنين</p>
     </div>
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        function send(mode) {
-            const text = document.getElementById('userInput').value.trim();
-            if (!text) return alert("الرجاء إدخال نص!");
-            tg.sendData(mode + "|" + text);
-            tg.close();
+
+    <div class="mode-selector">
+        <div class="mode-btn active" onclick="setMode('executive', this)">💼 التنفيذي</div>
+        <div class="mode-btn" onclick="setMode('academic', this)">🎓 الأكاديمي</div>
+        <div class="mode-btn" onclick="setMode('medical', this)">⚕️ الطبي</div>
+        <div class="mode-btn" onclick="setMode('cyber', this)">🛡️ السيبراني</div>
+    </div>
+
+    <div class="input-wrapper">
+        <div class="dragon-eye">● ●</div>
+        <textarea id="userInput" placeholder="ضع نصك هنا ليتم صقله..."></textarea>
+    </div>
+    
+    <button class="submit-btn" onclick="sendData()">صياغة ملكية 🐲</button>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    tg.headerColor = "#0a0a0a"; // Match app header to background
+
+    let selectedMode = 'executive';
+
+    function setMode(mode, element) {
+        selectedMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+        // Haptic feedback for a premium feel
+        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function sendData() {
+        const text = document.getElementById('userInput').value;
+        if (!text.trim()) {
+            tg.showAlert("التنين يحتاج إلى كلمات ليحرقها!");
+            return;
         }
-    </script>
+
+        const dataString = `${selectedMode}|${text}`;
+        
+        // Show progress in the MainButton before sending
+        tg.MainButton.setText("جاري الإرسال...");
+        tg.MainButton.show();
+        
+        setTimeout(() => {
+            tg.sendData(dataString);
+        }, 500);
+    }
+</script>
+
 </body>
 </html>
