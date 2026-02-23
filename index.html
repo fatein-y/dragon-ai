@@ -3,227 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dragon Pro 🐉</title>
+    <title>Dragon Hybrid - Golden Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #121417;
-            --card-bg: #1e2124;
-            --gold-gradient: linear-gradient(135deg, #ffd700, #b8860b, #ffd700);
-            --border-gold: rgba(255, 215, 0, 0.2);
-            --text-white: #ffffff;
-            --text-gray: #a0a0a0;
+            --gold: #D4AF37;
+            --dark-gold: #996515;
+            --black: #0a0a0a;
+            --dark-gray: #151515;
+            --gold-gradient: linear-gradient(145deg, #D4AF37, #996515);
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background: radial-gradient(circle at top, #1a1c1e 0%, var(--bg-dark) 100%);
-            color: var(--text-white);
+            background-color: var(--black);
+            color: #fff;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-        }
-
-        /* 🪄 سحر الدخول (Fade In) */
-        @keyframes floatIn {
-            0% { opacity: 0; transform: translateY(30px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .main-card {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 40px;
-            padding: 30px 20px;
-            border: 1px solid var(--border-gold);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            text-align: center;
-            animation: floatIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .header-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 5px;
-        }
-
-        .header-title img { width: 40px; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
-        .header-title h1 { 
-            font-size: 28px; font-weight: 800; margin: 0; 
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-        }
-
-        .subtitle { color: #ffd700; font-size: 14px; margin-bottom: 25px; display: block; opacity: 0.8; }
-
-        .modes-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .mode-card {
-            background: rgba(255,255,255,0.02);
-            border: 2px solid var(--border-gold);
-            border-radius: 25px;
-            padding: 20px 10px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
             overflow: hidden;
         }
 
-        /* 🪄 سحر الكروت عند الاختيار */
-        .mode-card.active {
-            border-color: #ffd700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1);
-            background: rgba(255, 215, 0, 0.08);
-            transform: translateY(-5px);
+        .header {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
         }
 
-        .mode-card img { width: 45px; margin-bottom: 10px; transition: 0.3s; }
-        .mode-card.active img { transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(255,215,0,0.5)); }
-        
-        .mode-card h3 { font-size: 18px; margin: 5px 0; color: #ffd700; }
-        .mode-card p { font-size: 11px; color: var(--text-gray); margin: 0; }
-
-        .input-area {
-            background: #0f1012;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 25px;
-            border: 1px solid #333;
-            transition: 0.3s;
+        .header h1 {
+            color: var(--gold);
+            font-size: 32px;
+            margin: 0;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
         }
 
-        /* 🪄 سحر التركيز على الكتابة */
-        .input-area:focus-within {
-            border-color: #ffd700;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+        .header p {
+            color: #888;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         textarea {
             width: 100%;
-            height: 100px;
-            background: transparent;
-            border: none;
+            height: 200px;
+            background-color: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 18px;
             color: #fff;
-            font-family: 'Tajawal', sans-serif;
-            resize: none;
-            outline: none;
-            text-align: right;
-            font-size: 15px;
-        }
-
-        /* 🪄 سحر الزر النابض (Pulse Animation) */
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.7); }
-            100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
-        }
-
-        .process-btn {
-            width: 100%;
-            background: var(--gold-gradient);
-            background-size: 200% auto;
-            border: none;
-            border-radius: 20px;
             padding: 18px;
-            font-size: 18px;
-            font-weight: 800;
-            color: #000;
-            cursor: pointer;
-            animation: pulseGlow 2s infinite;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
             transition: 0.3s;
+            resize: none;
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.6;
+            text-align: right;
+            direction: rtl;
         }
 
-        .process-btn:hover { background-position: right center; }
-        .process-btn:active { transform: scale(0.96); animation: none; }
+        textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+        }
 
+        .grid-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn {
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            background: #222;
+        }
+
+        /* زر الأوتو المميز مع تأثير النبض */
+        .btn-auto {
+            grid-column: span 2;
+            background: var(--gold-gradient);
+            color: var(--black);
+            border: none;
+            font-size: 17px;
+            box-shadow: 0 5px 20px rgba(153, 101, 21, 0.4);
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            color: #444;
+            font-size: 11px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* منع مشاكل التكبير في الآيفون */
+        input, textarea, button {
+            font-size: 16px !important;
+        }
     </style>
 </head>
 <body>
 
-<div class="main-card">
-    <div class="header-title">
-        <img src="https://img.icons8.com/color/96/dragon.png" alt="dragon">
-        <h1>Dragon Pro</h1>
+    <div class="header">
+        <h1>DRAGON HYBRID</h1>
+        <p>النسخة الملكية - صياغة بشرية مطلقة</p>
     </div>
-    <span class="subtitle">✨ اختر نوع الصياغة المطلوبة ✨</span>
 
-    <div class="modes-container">
-        <div class="mode-card active" onclick="setMode('corporate', this)">
-            <img src="https://img.icons8.com/fluency/96/briefcase.png">
-            <h3>إداري</h3>
-            <p>صياغة رسمية للمراسلات</p>
-        </div>
-        <div class="mode-card" onclick="setMode('academic', this)">
-            <img src="https://img.icons8.com/fluency/96/graduation-cap.png">
-            <h3>جامعي</h3>
-            <p>أبحاث وتقارير أكاديمية</p>
-        </div>
-        <div class="mode-card" onclick="setMode('medical', this)">
-            <img src="https://img.icons8.com/fluency/96/medical-heart.png">
-            <h3>طبي</h3>
-            <p>تقارير SOAP احترافية</p>
-        </div>
-        <div class="mode-card" onclick="setMode('cyber', this)">
-            <img src="https://img.icons8.com/fluency/96/shield.png">
-            <h3>سايبر</h3>
-            <p>تحليل ثغرات وأمان</p>
+    <div class="container">
+        <textarea id="userInput" placeholder="أدخل النص هنا.. وسيقوم التنين بإعادة صياغته بأسلوب بشري احترافي"></textarea>
+
+        <div class="grid-options">
+            <button class="btn btn-auto" onclick="sendToDragon('auto')">✨ ذكاء تلقائي (Auto Mode)</button>
+            <button class="btn" onclick="sendToDragon('corporate')">💼 Corporate</button>
+            <button class="btn" onclick="sendToDragon('academic')">🎓 Academic</button>
+            <button class="btn" onclick="sendToDragon('medical')">⚕️ Medical</button>
+            <button class="btn" onclick="sendToDragon('cyber')">🛡️ Cyber</button>
         </div>
     </div>
 
-    <div class="input-area">
-        <textarea id="userInput" placeholder="اكتب الملاحظات أو رؤوس الأقلام هنا..."></textarea>
+    <div class="footer">
+        Powered by Dragon Core AI Engine
     </div>
 
-    <button class="process-btn" onclick="sendToBot()">🚀 ابدأ المعالجة الذكية</button>
-</div>
-
-<script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-    
-    // ربطناها مع كود البايثون مباشرة (corporate بدلاً من executive)
-    let currentMode = 'corporate';
-
-    function setMode(mode, element) {
-        currentMode = mode;
-        document.querySelectorAll('.mode-card').forEach(card => card.classList.remove('active'));
-        element.classList.add('active');
+    <script>
+        const tg = window.Telegram.WebApp;
         
-        // اهتزاز خفيف يعطي إحساس بالفخامة
-        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-    }
+        // إعدادات التطبيق داخل تليجرام
+        tg.expand(); // فتح التطبيق بالكامل
+        tg.ready();
+        tg.setHeaderColor('#0a0a0a'); // تلوين شريط تليجرام العلوي
+        tg.setBackgroundColor('#0a0a0a');
 
-    function sendToBot() {
-        const text = document.getElementById('userInput').value.trim();
-        if (!text) {
-            tg.showAlert("⚠️ الرجاء كتابة نص أولاً!");
-            return;
+        function sendToDragon(mode) {
+            const input = document.getElementById('userInput').value.trim();
+            
+            if (!input) {
+                tg.HapticFeedback.notificationOccurred('error'); // اهتزاز خطأ
+                tg.showAlert("الرجاء كتابة نص أولاً!");
+                return;
+            }
+
+            // تجهيز البيانات للصيغة التي يفهمها البوت mode|text
+            const formattedData = mode + "|" + input;
+
+            // اهتزاز تأكيدي (نجاح)
+            tg.HapticFeedback.impactOccurred('heavy');
+            
+            // إرسال البيانات وإغلاق التطبيق
+            tg.sendData(formattedData);
+            tg.close();
         }
 
-        // اهتزاز قوي عند الإرسال
-        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
-
-        // ⚠️ التعديل المهم جداً: بعتنا القيمتين بس (mode|text) عشان يشتغل مع البايثون تبعك بدون Error
-        tg.sendData(`${currentMode}|${text}`);
-        tg.close();
-    }
-</script>
-
+        // جعل التيكست إريا تركز تلقائياً عند الفتح
+        window.onload = () => {
+            document.getElementById('userInput').focus();
+        };
+    </script>
 </body>
 </html>
