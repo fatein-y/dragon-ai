@@ -3,200 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dragon Hybrid - Golden Edition</title>
+    <title>Dragon Pro 🐉</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #D4AF37;
-            --dark-gold: #996515;
-            --black: #0a0a0a;
-            --dark-gray: #151515;
-            --gold-gradient: linear-gradient(145deg, #D4AF37, #996515);
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --glass: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.15);
         }
 
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--black);
-            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at top left, #2d3436, #000000);
+            background-size: 400% 400%;
             margin: 0;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
             overflow: hidden;
         }
 
-        .header {
-            text-align: center;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
-
-        .header h1 {
-            color: var(--gold);
-            font-size: 32px;
-            margin: 0;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-        }
-
-        .header p {
-            color: #888;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
         .container {
-            width: 100%;
-            max-width: 450px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 30px 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+
+        h2 { margin: 0; font-weight: 800; font-size: 26px; color: #fff; }
+        .subtitle { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 25px; display: block; }
+
+        .mode-selector { display: flex; gap: 15px; margin-bottom: 20px; }
+        .mode-option { flex: 1; cursor: pointer; }
+        .mode-option input { display: none; }
+
+        .mode-card {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 18px 10px; background: rgba(255, 255, 255, 0.03);
+            border: 2px solid transparent; border-radius: 20px; transition: 0.3s;
+        }
+
+        .mode-card .icon { font-size: 32px; margin-bottom: 8px; filter: grayscale(100%); transition: 0.3s; }
+        .mode-card .mode-name { font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, 0.5); }
+
+        /* الوصف المختفي */
+        .mode-card .mode-desc {
+            font-size: 10px; color: var(--secondary);
+            max-height: 0; opacity: 0; overflow: hidden; transition: 0.4s;
+        }
+
+        /* حالة التفعيل */
+        .mode-option input:checked + .mode-card {
+            background: rgba(108, 92, 231, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 25px rgba(108, 92, 231, 0.4);
+            transform: translateY(-5px);
+        }
+        .mode-option input:checked + .mode-card .icon { filter: grayscale(0%); transform: scale(1.1); }
+        .mode-option input:checked + .mode-card .mode-name { color: white; }
+        .mode-option input:checked + .mode-card .mode-desc { max-height: 40px; opacity: 1; margin-top: 5px; }
 
         textarea {
-            width: 100%;
-            height: 200px;
-            background-color: var(--dark-gray);
-            border: 1px solid #333;
-            border-radius: 18px;
-            color: #fff;
-            padding: 18px;
-            font-size: 16px;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
-            resize: none;
-            font-family: 'Tajawal', sans-serif;
-            line-height: 1.6;
-            text-align: right;
-            direction: rtl;
+            width: 100%; height: 110px; background: rgba(0, 0, 0, 0.25);
+            border: 2px solid var(--border); border-radius: 18px;
+            padding: 15px; color: white; font-family: 'Cairo'; font-size: 15px;
+            resize: none; outline: none; transition: 0.3s;
+        }
+        textarea:focus { border-color: var(--secondary); }
+
+        .btn-send {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white; border: none; width: 100%; padding: 15px;
+            border-radius: 18px; font-size: 17px; font-weight: 800;
+            cursor: pointer; margin-top: 20px; box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
         }
 
-        textarea:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
-        }
-
-        .grid-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            width: 100%;
-        }
-
-        .btn {
-            background: var(--dark-gray);
-            border: 1px solid #333;
-            color: #fff;
-            padding: 15px;
-            border-radius: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn:active {
-            transform: scale(0.95);
-            background: #222;
-        }
-
-        /* زر الأوتو المميز مع تأثير النبض */
-        .btn-auto {
-            grid-column: span 2;
-            background: var(--gold-gradient);
-            color: var(--black);
-            border: none;
-            font-size: 17px;
-            box-shadow: 0 5px 20px rgba(153, 101, 21, 0.4);
-            animation: pulse 2.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
-            70% { box-shadow: 0 0 0 12px rgba(212, 175, 55, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
-
-        .footer {
-            margin-top: auto;
-            padding: 20px;
-            color: #444;
-            font-size: 11px;
-            text-align: center;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* منع مشاكل التكبير في الآيفون */
-        input, textarea, button {
-            font-size: 16px !important;
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>DRAGON HYBRID</h1>
-        <p>النسخة الملكية - صياغة بشرية مطلقة</p>
-    </div>
-
     <div class="container">
-        <textarea id="userInput" placeholder="أدخل النص هنا.. وسيقوم التنين بإعادة صياغته بأسلوب بشري احترافي"></textarea>
+        <h2>Dragon Pro 🐉</h2>
+        <span class="subtitle">اختر نوع الصياغة المطلوبة</span>
 
-        <div class="grid-options">
-            <button class="btn btn-auto" onclick="sendToDragon('auto')">✨ ذكاء تلقائي (Auto Mode)</button>
-            <button class="btn" onclick="sendToDragon('corporate')">💼 Corporate</button>
-            <button class="btn" onclick="sendToDragon('academic')">🎓 Academic</button>
-            <button class="btn" onclick="sendToDragon('medical')">⚕️ Medical</button>
-            <button class="btn" onclick="sendToDragon('cyber')">🛡️ Cyber</button>
+        <div class="mode-selector">
+            <label class="mode-option">
+                <input type="radio" name="dragon-mode" value="corporate" checked>
+                <div class="mode-card">
+                    <div class="icon">💼</div>
+                    <div class="mode-name">إداري</div>
+                    <div class="mode-desc">تقارير رسمية واحترافية</div>
+                </div>
+            </label>
+
+            <label class="mode-option">
+                <input type="radio" name="dragon-mode" value="academic">
+                <div class="mode-card">
+                    <div class="icon">🎓</div>
+                    <div class="mode-name">جامعي</div>
+                    <div class="mode-desc">أبحاث طبية فرنسية (USJ)</div>
+                </div>
+            </label>
         </div>
-    </div>
 
-    <div class="footer">
-        Powered by Dragon Core AI Engine
+        <textarea id="user-input" placeholder="اكتب الملاحظات أو رؤوس الأقلام هنا..."></textarea>
+        <button id="send-btn" class="btn-send" onclick="send()">✨ ابدأ المعالجة الذكية</button>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        
-        // إعدادات التطبيق داخل تليجرام
-        tg.expand(); // فتح التطبيق بالكامل
-        tg.ready();
-        tg.setHeaderColor('#0a0a0a'); // تلوين شريط تليجرام العلوي
-        tg.setBackgroundColor('#0a0a0a');
+        tg.expand();
 
-        function sendToDragon(mode) {
-            const input = document.getElementById('userInput').value.trim();
+        // هزة خفيفة عند تغيير المود
+        document.querySelectorAll('.mode-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            });
+        });
+
+        function send() {
+            const text = document.getElementById('user-input').value;
+            // سحب القيمة من الـ Radio Button المختار
+            const mode = document.querySelector('input[name="dragon-mode"]:checked').value;
+            const btn = document.getElementById('send-btn');
             
-            if (!input) {
-                tg.HapticFeedback.notificationOccurred('error'); // اهتزاز خطأ
-                tg.showAlert("الرجاء كتابة نص أولاً!");
+            if (!text.trim()) {
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                tg.showAlert("⚠️ بليز اكتب شي قبل ما تبعت!");
                 return;
             }
 
-            // تجهيز البيانات للصيغة التي يفهمها البوت mode|text
-            const formattedData = mode + "|" + input;
+            btn.disabled = true;
+            btn.innerText = "⏳ جاري الإرسال...";
 
-            // اهتزاز تأكيدي (نجاح)
-            tg.HapticFeedback.impactOccurred('heavy');
-            
-            // إرسال البيانات وإغلاق التطبيق
-            tg.sendData(formattedData);
-            tg.close();
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+            // إرسال البيانات بنفس الصيغة اللي بيفهمها البايثون عندك: mode|text
+            setTimeout(() => {
+                tg.sendData(`${mode}|${text}`);
+                tg.close();
+            }, 400);
         }
-
-        // جعل التيكست إريا تركز تلقائياً عند الفتح
-        window.onload = () => {
-            document.getElementById('userInput').focus();
-        };
     </script>
 </body>
 </html>
